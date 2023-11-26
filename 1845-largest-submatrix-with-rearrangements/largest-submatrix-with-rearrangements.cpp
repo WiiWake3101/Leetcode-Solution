@@ -1,33 +1,27 @@
-class Solution {
+class Solution 
+{
 public:
-    int largestSubmatrix(vector<vector<int>>& matrix) {
+    int largestSubmatrix(vector<vector<int>>& matrix) 
+    {
         int m = matrix.size();
         int n = matrix[0].size();
-        vector<pair<int,int>> prevHeights;
-        int ans = 0;
-        for (int row = 0; row < m; row++) { 
-            vector<pair<int,int>> heights;
-            vector<bool> seen(n, false);
-            
-            for (auto [h, col] : prevHeights) {
-                if (matrix[row][col]) {
-                    heights.push_back({h + 1, col});
-                    seen[col] = true;
-                }
+        vector<int>hist(n,0);
+        int ret = 0;
+        for (int i=0; i<m; i++)
+        {
+            for (int j=0; j<n; j++)
+            {
+                if (matrix[i][j]==1)
+                    hist[j] = hist[j]+1;
+                else
+                    hist[j] = 0;                    
             }
-            
-            for (int col = 0; col < n; col++) {
-                if (!seen[col] && matrix[row][col]) {
-                    heights.push_back({1, col});
-                }
-            }
-            
-            for (int i = 0; i < heights.size(); i++) {
-                ans = max(ans, heights[i].first * (i + 1));
-            }
-            
-            prevHeights = heights;
+            auto h = hist;
+            sort(h.begin(), h.end());
+            reverse(h.begin(), h.end());
+            for (int j=0; j<n; j++)
+                ret = max(ret, h[j]*(j+1));
         }
-        return ans;
+        return ret;        
     }
 };
