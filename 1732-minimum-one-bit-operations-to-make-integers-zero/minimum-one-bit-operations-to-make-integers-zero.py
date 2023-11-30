@@ -1,7 +1,9 @@
 class Solution:
     def minimumOneBitOperations(self, n: int) -> int:
-        res = 0
-        while n:
-            res = -res - (n ^ (n - 1))
-            n &= n - 1
-        return abs(res)
+        ans = n
+        ans ^= ans >> 16
+        ans ^= ans >> 8
+        ans ^= ans >> 4
+        ans ^= ans >> 2
+        ans ^= ans >> 1
+        return ans
