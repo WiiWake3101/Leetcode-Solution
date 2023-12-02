@@ -1,22 +1,23 @@
 class Solution:
     def countCharacters(self, words: List[str], chars: str) -> int:
-        counts = defaultdict(int)
-        for c in chars:
-            counts[c] += 1
+        charsMap = {}
+        result = 0
+        for char in chars:
+            if char not in charsMap:
+                charsMap[char] = 1
+            else:
+                charsMap[char] += 1
         
-        ans = 0
         for word in words:
-            word_count = defaultdict(int)
-            for c in word:
-                word_count[c] += 1
-            
-            good = True
-            for c, freq in word_count.items():
-                if counts[c] < freq:
-                    good = False
+            charsMapCopy = charsMap.copy()
+            end = True
+            for char in word:
+                if char in charsMapCopy and charsMapCopy[char] > 0:
+                    charsMapCopy[char] -= 1
+                else:
+                    end = False
                     break
-            
-            if good:
-                ans += len(word)
-            
-        return ans
+            if end:
+                result += len(word)
+
+        return result
