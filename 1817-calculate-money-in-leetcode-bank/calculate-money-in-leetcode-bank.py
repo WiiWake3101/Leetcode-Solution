@@ -1,13 +1,17 @@
 class Solution:
     def totalMoney(self, n: int) -> int:
-        ans = 0
-        monday = 1
-        
-        while n > 0:
-            for day in range(min(n, 7)):
-                ans += monday + day
-            
-            n -= 7
-            monday += 1
+        count = 0
 
-        return ans
+        weeks = n//7+1
+
+        for week in range(weeks):
+
+            if week == weeks-1:
+                for day in range(1,n%7+1):
+                    count += week + day
+            else:
+                for day in range(1,8):
+                    count += week + day
+
+        return count
+        
