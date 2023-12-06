@@ -1,17 +1,6 @@
 class Solution:
     def totalMoney(self, n: int) -> int:
-        count = 0
+        week, rest = divmod(n, 7)
+        return 28 * week + week * (week - 1) * 7 // 2 + week * rest + (1+rest) * rest // 2
 
-        weeks = n//7+1
-
-        for week in range(weeks):
-
-            if week == weeks-1:
-                for day in range(1,n%7+1):
-                    count += week + day
-            else:
-                for day in range(1,8):
-                    count += week + day
-
-        return count
         
