@@ -4,16 +4,12 @@ class Solution(object):
         :type paths: List[List[str]]
         :rtype: str
         """
-        cities = set()
-
-        # Collect outgoing cities
-        for path in paths:
-            cities.add(path[0])
-
-        # Find destination city with no outgoing path
-        for path in paths:
-            dest = path[1]
-            if dest not in cities:
-                return dest
-
-        return ""     
+        mp={}
+        seen={}
+        for i in range(len(paths)):
+            mp[paths[i][1]]=1
+            mp[paths[i][0]]=1
+            seen[paths[i][0]]=1
+        for i in mp.keys():
+            if i not in seen:
+                return i  
