@@ -5,18 +5,11 @@ class Solution(object):
         :type t: str
         :rtype: bool
         """
-        n, m = len(s), len(t)
-        if n != m:
+        if len(s) != len(t):
             return False
 
-        char_count = [0] * 26
-
-        for char in s:
-            char_count[ord(char) - ord('a')] += 1
-
-        for char in t:
-            if char_count[ord(char) - ord('a')] < 1:
+        tem = set(s)
+        for i in tem:
+            if not (i in t and i in s and s.count(i) == t.count(i)):
                 return False
-            char_count[ord(char) - ord('a')] -= 1
-
-        return True       
+        return True   
