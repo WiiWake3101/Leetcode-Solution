@@ -1,4 +1,6 @@
-from collections import defaultdict
+import bisect
+
+
 class FoodRatings(object):
 
     def __init__(self, foods, cuisines, ratings):
@@ -7,14 +9,14 @@ class FoodRatings(object):
         :type cuisines: List[str]
         :type ratings: List[int]
         """
-        self.cuisine_to_heap = defaultdict(list)
-        self.food_to_cuisine = {}
-        self.food_to_rating = defaultdict(int)
+        self.cuisine_dict = defaultdict(list)
+        self.food_dict = defaultdict(str)
+        self.food_rating = defaultdict(int)
         for i in range(len(foods)):
-            self.food_to_cuisine[foods[i]] = cuisines[i]
-            heapq.heappush(self.cuisine_to_heap[cuisines[i]], (-ratings[i], foods[i]))
-            self.food_to_rating[foods[i]] = -ratings[i]
-        
+            self.food_dict[foods[i]] = cuisines[i]
+            self.food_rating[foods[i]] = ratings[i]
+            bisect.insort(self.cuisine_dict[cuisines[i]], (-ratings[i], foods[i]))
+
 
     def changeRating(self, food, newRating):
         """
@@ -22,22 +24,21 @@ class FoodRatings(object):
         :type newRating: int
         :rtype: None
         """
-        cuisine = self.food_to_cuisine[food]
-        heapq.heappush(self.cuisine_to_heap[cuisine], (-newRating, food))
-        self.food_to_rating[food] = -newRating
+        cuisine = self.food_dict[food]
+        self.cuisine_dict[cuisine].remove((-self.food_rating[food], food))
+        bisect.insort(self.cuisine_dict[cuisine], (-newRating, food))
+        self.food_rating[food] = newRating
+        
 
     def highestRated(self, cuisine):
         """
         :type cuisine: str
         :rtype: str
         """
-        smallest_lexico = None
-        while len(self.cuisine_to_heap[cuisine]) > 0:
-            curr = self.cuisine_to_heap[cuisine][0]
-            if curr[0] != self.food_to_rating[curr[1]]:
-                # delete old data
-                heapq.heappop(self.cuisine_to_heap[cuisine])
-                continue
-            smallest_lexico = curr[1]
-            break
-        return smallest_lexico
+        return self.cuisine_dict[cuisine][0][1]
+
+
+# Your FoodRatings object will be instantiated and called as such:
+# obj = FoodRatings(foods, cuisines, ratings)
+# obj.changeRating(food,newRating)
+# param_2 = obj.highestRated(cuisine)
