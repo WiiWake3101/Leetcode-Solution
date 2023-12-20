@@ -5,4 +5,17 @@ class Solution(object):
         :type money: int
         :rtype: int
         """
-        return money-sum(heapq.nsmallest(2, prices)) if money-sum(heapq.nsmallest(2, prices))>= 0 else money
+        m0 = float('inf')
+        m1 = float('inf')
+
+        for p in prices:
+            if p < m1:
+                if p < m0:
+                    m1 = m0
+                    m0 = p
+                else:
+                    m1 = p
+
+        m = money - m0 - m1
+
+        return m if m>=0 else money
