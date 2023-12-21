@@ -1,15 +1,10 @@
 class Solution(object):
-    def maxWidthOfVerticalArea(self, points):
-        """
-        :type points: List[List[int]]
-        :rtype: int
-        """
-        points.sort(key=lambda x: x[0])
-
-        max_width = 0
-
-        for i in range(1, len(points)):
-            width = points[i][0] - points[i-1][0]
-            max_width = max(max_width, width)
-
-        return max_width
+    def maxWidthOfVerticalArea(self, nums):
+        ans = [i[0] for i in nums]
+        maxi = 0
+        ans.sort()
+        for i in range(len(ans)-1):
+            if ans[i + 1] - ans[i] > maxi:
+                maxi = ans[i + 1] - ans[i]
+        return maxi
+        
