@@ -1,21 +1,21 @@
 class Solution(object):
     def maxScore(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        ans = 0
+        length = len(s)
+        ones = 0
+        tmpScore = 1 if s[0] == '0' else 0
+        score = tmpScore
         
-        for i in range(len(s) - 1):
-            curr = 0
-            for j in range(i + 1):
-                if s[j] == "0":
-                    curr += 1
-            
-            for j in range(i + 1, len(s)):
-                if s[j] == "1":
-                    curr += 1
-            
-            ans = max(ans, curr)
-    
-        return ans
+        for i in range(1, length - 1):
+            if s[i] == '0':
+                tmpScore += 1
+            else:
+                ones += 1
+                tmpScore -= 1
+
+            if tmpScore > score:
+                score = tmpScore
+        
+        ones += 1 if s[length - 1] == '1' else 0
+
+        return ones + score
+        
