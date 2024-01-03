@@ -1,17 +1,11 @@
 class Solution(object):
     def numberOfBeams(self, bank):
-        """
-        :type bank: List[str]
-        :rtype: int
-        """
-        prev = 0
-        ans = 0
-        for s in bank:
-            count=0
-            for c in s:
-                if(c=='1'):
-                    count+=1
-            if count!= 0:
-                ans+= (prev * count)    
-                prev = count
+        prev, ans = 0, 0
+        for i in bank:
+            c = i.count("1")
+            if c == 0:
+                continue
+            else:
+                ans += prev * c
+                prev = c
         return ans
