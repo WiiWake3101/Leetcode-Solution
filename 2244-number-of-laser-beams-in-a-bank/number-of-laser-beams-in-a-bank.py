@@ -4,7 +4,8 @@ class Solution(object):
         :type bank: List[str]
         :rtype: int
         """
-        prev,ans = 0,0
+        prev = 0
+        ans = 0
         for s in bank:
             count=0
             for c in s:
