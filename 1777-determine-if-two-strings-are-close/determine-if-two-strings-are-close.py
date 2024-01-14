@@ -5,16 +5,15 @@ class Solution(object):
         :type word2: str
         :rtype: bool
         """
-        def alpha(word):
-            freq=[0]*26
-            S=[False]*26
-            for c in word:
-                i=ord(c)-ord('a')
-                S[i]=True
-                freq[i]+=1
-            return (S, freq)
-        
-        S1, A1=alpha(word1)
-        S2, A2=alpha(word2)
-        if S1!= S2: return False
-        return sorted(A1)==sorted(A2)
+        if len(word1) != len(word2):
+            return False
+        a,b = sorted(set(word1)),sorted(set(word2))
+        if a != b:
+            return False
+        count1,count2 = [],[]
+        for s1 in a:
+            count1.append(word1.count(s1))
+        for s2 in b:
+            count2.append(word2.count(s2))
+        if sorted(count1) == sorted(count2):
+            return True
