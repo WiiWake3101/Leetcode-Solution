@@ -4,14 +4,11 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        if n<=2:
-            return n
-        prv1 = 1
-        prv2 = 2
-        x = 0
-        for i in range(2,n):
-            x = prv1 + prv2
-            prv1 = prv2
-            prv2 = x
-        return x
+        x, y = 1, 2
+        if n == 1: return x
+        if n == 2: return y
+        for n in range(3, n + 1):
+            x, y = y, x + y
+        return y
+        
         
