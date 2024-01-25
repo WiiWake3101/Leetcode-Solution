@@ -4,24 +4,24 @@ class Solution(object):
         :type arr: List[str]
         :rtype: int
         """
-        result = [0]
-        self.dfs(arr, "", 0, result)
-        return result[0]
+        def bit_msk(s):
+            return sum(1 << (ord(c) - 97) for c in s)
 
-    def dfs(self, arr, path, idx, result):
-        if self.isUniqueChars(path):
-            result[0] = max(result[0], len(path))
+        def len_msk(msk):
+            return bin(msk).count('1')
 
-        if idx == len(arr) or not self.isUniqueChars(path):
-            return
-
-        for i in range(idx, len(arr)):
-            self.dfs(arr, path + arr[i], i + 1, result)
-
-    def isUniqueChars(self, s):
-        char_set = set()
-        for c in s:
-            if c in char_set:
-                return False
-            char_set.add(c)
-        return True   
+        def fn(k, current_msk, arr, memo = {}):
+            tpl = (current_msk, arr)
+            if tpl in memo:
+                return memo[tpl]
+            current_max = 0
+            for i in range(k, len(arr)):
+                if not arr[i] & current_msk:
+                    next_msk = current_msk + arr[i]
+                    current_max = max(current_max, len_msk(next_msk), fn(i+1, next_msk, arr))
+            memo[tpl] = current_max
+            return current_max
+        s = ''.join(arr)
+        if len(set(s)) == len(s):
+            return len(s)
+        return fn(0, 0, tuple(bit_msk(a) for a in arr if len(a) == len(set(a))))
