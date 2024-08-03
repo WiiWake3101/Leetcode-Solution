@@ -3,15 +3,13 @@
  * @return {number}
  */
 var maxChunksToSorted = function(arr) {
-    let maxSeen = 0;
-    let chunks = 0;
-
-    for (let i = 0; i < arr.length; i++) {
-        maxSeen = Math.max(maxSeen, arr[i]);
-        if (maxSeen === i) {
-            chunks++;
+    let max = 0;
+    let count =0;
+    for(let i=0;i<arr.length;i++){
+        max = Math.max(arr[i],max);
+        if(i === max){
+            count++;
         }
     }
-
-    return chunks;
+    return count;
 };
