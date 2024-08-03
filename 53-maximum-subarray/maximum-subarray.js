@@ -2,14 +2,19 @@
  * @param {number[]} nums
  * @return {number}
  */
-var maxSubArray = function(nums) {
-    let maxSoFar = nums[0];
-    let currentMax = nums[0];
+var maxSubArray = function(numbers) {
+    let max = numbers[0];
+    let cur = numbers[0];
+    for (let i = 1; i < numbers.length; i++) {
+        const value = numbers[i];
+        if (cur + value >= value) {
+            cur += value;
+        } else {
+            cur = value;
+        }
 
-    for (let i = 1; i < nums.length; i++) {
-        currentMax = Math.max(nums[i], currentMax + nums[i]);
-        maxSoFar = Math.max(maxSoFar, currentMax);
+        max = Math.max(cur, max);
     }
 
-    return maxSoFar;
+    return max;
 };
