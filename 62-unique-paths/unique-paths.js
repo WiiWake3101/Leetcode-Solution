@@ -4,14 +4,13 @@
  * @return {number}
  */
 var uniquePaths = function(m, n) {
-    let noOfPaths = new Array(n)
-    noOfPaths.fill(1)
+    let a = Array(n).fill(1);
     for (let i = 1; i < m; i++) {
-        let prev = 1
+        let b = Array(n).fill(1);
         for (let j = 1; j < n; j++) {
-            noOfPaths[j] = prev + noOfPaths[j]
-            prev = noOfPaths[j]
+            b[j] = b[j - 1] + a[j];
         }
+        a = b;
     }
-    return noOfPaths.pop()
+    return a[n - 1]; 
 };
